@@ -1,0 +1,30 @@
+{
+  "name": "glint-adapter-elasticsearch",
+  "version": "1.0.0",
+  "description": "Elasticsearch Adapter for Glint :: node.js and browser supported.",
+  "main": "index.js",
+  "browser": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andi Neck",
+  "license": "MIT",
+  "dependencies": {
+    "debug": "^2.0.0",
+    "superagent": "^0.21.0",
+    "utils-merge": "^1.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glintcms/glint-adapter-elasticsearch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/glintcms/glint-adapter-elasticsearch/issues"
+  },
+  "homepage": "https://github.com/glintcms/glint-adapter-elasticsearch",
+  "keywords": [
+    "glint",
+    "adapter",
+    "elasticsearch"
+  ]
+}
