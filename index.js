@@ -36,6 +36,8 @@ function ElasticsearchAdapter(options) {
  */
 ElasticsearchAdapter.prototype.api = ElasticsearchAdapter.api = 'adapter-provider';
 
+ElasticsearchAdapter.prototype.name = ElasticsearchAdapter.name = 'elasticsearch';
+
 ElasticsearchAdapter.prototype.load = function (db, type, id, fn) {
   var path = this.getPath(db, type, id);
   fn = fn || noop();
