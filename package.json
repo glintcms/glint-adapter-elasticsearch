@@ -1,6 +1,6 @@
 {
   "name": "glint-adapter-elasticsearch",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Elasticsearch Adapter for Glint :: node.js and browser supported.",
   "main": "index.js",
   "browser": "index.js",
