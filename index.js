@@ -1,8 +1,8 @@
 /**
  * Module dependencies.
  */
+var debug = require('debug')('glint-adapter-elasticsearch');
 var merge = require('utils-merge');
-var debug = require('debug')('glint:ElasticsearchAdapter');
 var request = require('superagent');
 var config = require('./config');
 
