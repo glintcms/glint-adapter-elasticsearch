@@ -8,11 +8,13 @@ var config = require('./config');
 
 /**
  * superagent consistency fix
+ *
+ * @link https://github.com/visionmedia/superagent/issues/19
+ *
  */
-// https://github.com/visionmedia/superagent/issues/19
 request.Request.prototype.endWithoutErr = request.Request.prototype.end;
-request.Request.prototype.end = function (fn) {
-  this.endWithoutErr(function (res) {
+request.Request.prototype.end = function(fn) {
+  this.endWithoutErr(function(res) {
     if (fn.length < 2) return fn(res);
     if (res.ok) {
       fn(null, res);
@@ -38,22 +40,21 @@ ElasticsearchAdapter.prototype.api = ElasticsearchAdapter.api = 'adapter-provide
 
 ElasticsearchAdapter.prototype.provider = ElasticsearchAdapter.provider = 'elasticsearch';
 
-ElasticsearchAdapter.prototype.load = function (db, type, id, fn) {
+ElasticsearchAdapter.prototype.load = function(db, type, id, fn) {
   var path = this.getPath(db, type, id);
   fn = fn || noop();
   debug('es load', path);
   request
     .get(path)
     .set('Accept', 'application/json')
-    .end(function (err, res) {
+    .end(function(err, res) {
       if (err) return fn(err);
       if (res && res.body && res.body._source) return fn(null, res.body._source);
       return fn();
     });
 };
 
-// TODO test
-ElasticsearchAdapter.prototype.find = function (db, type, query, fn) {
+ElasticsearchAdapter.prototype.find = function(db, type, query, fn) {
   var path = this.getPath(db, type, '_search');
   fn = fn || noop();
   debug('es find', path);
@@ -61,22 +62,21 @@ ElasticsearchAdapter.prototype.find = function (db, type, query, fn) {
     .get(path)
     .send(query)
     .set('Accept', 'application/json')
-    .end(function (err, res) {
+    .end(function(err, res) {
       if (err) return fn(err);
       if (res && res.body && res.body.hits && res.body.hits.hits) {
         var hits = res.body.hits.hits;
-        var result = hits.map(function(hit){
+        var result = hits.map(function(hit) {
           return hit._source;
         });
         return fn(null, result);
       } else {
         return fn(null, []);
       }
-      return fn();
     });
-}
+};
 
-ElasticsearchAdapter.prototype.save = function (db, type, id, content, fn) {
+ElasticsearchAdapter.prototype.save = function(db, type, id, content, fn) {
   var path = this.getPath(db, type, id);
   fn = fn || noop();
   debug('es save', path);
@@ -84,21 +84,21 @@ ElasticsearchAdapter.prototype.save = function (db, type, id, content, fn) {
     .post(path)
     .send(content)
     .set('Accept', 'application/json')
-    .end(function (err, res) {
+    .end(function(err, res) {
       if (err) return fn(err);
       if (res && res.body && res.body._source) return fn(null, res.body._source);
       return fn();
     });
 };
 
-ElasticsearchAdapter.prototype.delete = function (db, type, id, fn) {
+ElasticsearchAdapter.prototype.delete = function(db, type, id, fn) {
   var path = this.getPath(db, type, id);
   fn = fn || noop();
   debug('es delete', path);
   request
     .del(path)
     .set('Accept', 'application/json')
-    .end(function (err, res) {
+    .end(function(err, res) {
       if (err) return fn(err);
       if (res && res.ok && res.ok == true) return fn(null, true);
       return fn(null, false);
@@ -108,19 +108,19 @@ ElasticsearchAdapter.prototype.delete = function (db, type, id, fn) {
 /**
  * Helper functions.
  */
-ElasticsearchAdapter.prototype.getPath = function (db, type, id) {
+ElasticsearchAdapter.prototype.getPath = function(db, type, id) {
   debug('es getPath', db, type, id);
 
   var path = [this.address, db, type, id];
-  path = path.map(function (val) {
+  path = path.map(function(val) {
     return val.toLowerCase();
-  })
+  });
   path = path.join('/');
   return path;
 };
 
 function noop() {
-};
+}
 
 /**
  * Expose ElasticsearchAdapter element.
